@@ -21,8 +21,8 @@
 <svg>
 </svg>
 <script>
-    var ageHeight = d3.scaleLinear() // assummes linear growth to adulthood
-                .domain([0, 21])
+    var ageHeight = d3.scaleLinear() // assumes linear growth to adulthood
+                .domain([9, 21])
                 .range([1, 10]) // leg, torso 
                 .clamp(true);
 
@@ -120,24 +120,24 @@
     population = d3.csv('6m_vis_data.csv', function(data) {
         // population = data;
         createPopulation(data)
-        // simpleLayout(data)
         betterLayout();
     })
 
 
-    var simpleLayout = function(population) {
-        var maxRow = 20;
-        for (i = population.length - 1; i >= 0; i--) {
-            // person = createPerson(d3.select('svg'), population[i])
-            person.attr('transform', function(d) { return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'})
-        };        
-    }
 
     var betterLayout = function() {
         var maxRow = 20;
         d3.selectAll('.person').attr('transform', function(d, i) { 
             return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'
         })
+
+        // age strips
+        var height = 3*ageHeight(18)
+        var y = 30 - height
+        for(i = 0; i < d3.selectAll('.person').nodes().length / maxRow; i++) {
+            d3.select('svg').append('rect').attr('class','age-strip').style('fill', '#fee').style('stroke', '#fcc')
+            .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).lower()
+        }     
     }
 </script>
 <!--
