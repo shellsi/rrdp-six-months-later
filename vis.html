@@ -21,6 +21,10 @@
 <svg>
 </svg>
 <script>
+    var ageHeight = d3.scaleLinear() // assummes linear growth to adulthood
+                .domain([0, 21])
+                .range([1, 10]) // leg, torso 
+                .clamp(true);
 
     var createPerson = function(sel, d) {
         var person = sel.append('g').attr('class', 'person')
@@ -33,32 +37,74 @@
         // var rndArms = d3.randomUniform()
 
 
-        person.append('ellipse').attr('cx', 30).attr('cy', 5)
+        person.append('ellipse').attr('cx', 10).attr('cy', 5)
             .attr('ry', 5)
             .attr('rx', rndHead)//.attr('stroke', 'black')
-        person.append('path').attr('d', "M30 10 v10")
+        person.append('path').attr('d', "M10 10 v10")
 
         // arm and shoulders
-        person.append('path').attr('d', 'M25 20 q 5 -17 10 0')
+        person.append('path').attr('d', 'M5 20 q 5 -17 10 0')
 
         // lower half
-        person.append('path').attr('d', 'M28 30 q 2 -20 4 0')
+        person.append('path').attr('d', 'M8 30 q 2 -20 4 0')
 
         // dress?
         if(d.gender == 'Female') {
-            person.append('path').attr('d', 'M27 25 q 3 -18 6 0 L27 25').style('fill', 'black')
+            person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
         }
+
+        // age height stick
+        person.append('path').attr('d', function(d) {
+            return 'M3 30 v-' + (3 * ageHeight(d.age))
+        })
 
         return person;
     }
 
-    var renderPerson = function(sel, d) {
-        var ageHeight = d3.scaleLinear() // assummes linear growth to adulthood
-                .domain([0, 21])
-                .range([1, 10]) // leg, torso 
-                .clamp(true);
+    var renderPerson = function(d) {
 
-        
+        // head and body
+        // var rndHead = d3.randomNormal(4, 0.5)
+        var rndHead = d3.randomUniform(3, 5)
+        // var rndWaist = d3.randomUniform(3, 5)
+        // var rndArms = d3.randomUniform()
+
+        person = d3.select(this).attr('class', 'person')
+
+        person.append('ellipse').attr('cx', 10).attr('cy', function(d) {
+            return 30 - 2 * ageHeight(d.age) - 5;
+        })
+            .attr('ry', 5)
+            .attr('rx', rndHead)//.attr('stroke', 'black')
+
+        // body line    
+        person.append('path').attr('d', function(d) {
+            return "M10 " + (30 - ageHeight(d.age)) + " v-" + ageHeight(d.age)
+        })
+
+        // arm and shoulders
+        person.append('path').attr('d', function(d) {
+            return 'M5 ' + (30 - ageHeight(d.age)) + ' q 5 -' + (2 * ageHeight(d.age) - 2) + ' 10 0'
+        })
+
+        // lower half
+        person.append('path').attr('d', function(d) {
+            return 'M8 30 l 2 -' + ageHeight(d.age) +' l 2 ' + ageHeight(d.age)
+        })
+
+        // dress?
+        if(d.gender == 'Female') {
+            person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
+        }
+
+        // age height stick
+        // person.append('path').attr('d', function(d) {
+        //     if(!!d.age) {
+        //         return 'M3 30 v-' + (3 * ageHeight(d.age))
+        //     }
+        // })
+
+        return person;
     }
 
     var createPopulation = function(data) {
@@ -73,17 +119,25 @@
     // population = [{gender: 'male', age:16},{gender: 'female', age:25}]
     population = d3.csv('6m_vis_data.csv', function(data) {
         // population = data;
-        
-        simpleLayout(data)
+        createPopulation(data)
+        // simpleLayout(data)
+        betterLayout();
     })
 
 
     var simpleLayout = function(population) {
         var maxRow = 20;
         for (i = population.length - 1; i >= 0; i--) {
-            person = createPerson(d3.select('svg'), population[i])
+            // person = createPerson(d3.select('svg'), population[i])
             person.attr('transform', function(d) { return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'})
         };        
+    }
+
+    var betterLayout = function() {
+        var maxRow = 20;
+        d3.selectAll('.person').attr('transform', function(d, i) { 
+            return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'
+        })
     }
 </script>
 <!--
@@ -91,6 +145,7 @@
     * Individual figures emphasize these are individuals.  Small numbers make this possible.
     * Stick figures match RRDP aesthetic and convey simple vulnerability.
     * Looks better on retina display, predictably.
+    * No age for a couple, scale to adult or average?
 
     IDEAS
     * Pop out to tell story
@@ -98,5 +153,6 @@
     * Sagging shoulders for length of stay
     * Come in over time from direction of origin
     * Add a little noise for variability, e.g. head size, body/leg ratio, curve alignment, etc.
+    * leave body line off to match RRDP logo?  Too abstract?
     -->
 </body>
