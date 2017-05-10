@@ -1,0 +1,75 @@
+<head>
+        <script src="d3.v4.min.js"></script>
+</head>
+<body>
+    <style>
+        svg {
+            width: 800px;
+            height:500px;
+        }
+
+        .fig {
+            stroke: black;
+            fill: none;
+            stroke-width: 1px solid;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            shape-rendering: geometricPrecision;
+        }
+
+    </style>
+<svg>
+</svg>
+<script>
+
+    var createPerson = function(d) {
+        var person = d3.select('svg').append('g').attr('class', 'fig')
+
+        // head and body
+        person.append('circle').attr('cx', 30).attr('cy', 8).attr('r', 5)//.attr('stroke', 'black')
+        person.append('path').attr('d', "M30 13 V23")
+
+        // arm and shoulders
+        person.append('path').attr('d', 'M25 25 q 5 -20 10 0')
+
+        // lower half
+        person.append('path').attr('d', 'M28 35 q 2 -23 4 0')
+
+        // dress?
+        if(d.gender == 'Female') {
+            person.append('path').attr('d', 'M27 30 q 3 -18 6 0 L27 30').style('fill', 'white')
+        }
+
+        return person;
+    }
+
+    // population = [{gender: 'male', age:16},{gender: 'female', age:25}]
+    population = d3.csv('6m_vis_data.csv', function(data) {
+        // population = data;
+
+        simple(data)
+    })
+
+
+    var simple = function(population) {
+        var maxRow = 20;
+        for (i = population.length - 1; i >= 0; i--) {
+            person = createPerson(population[i])
+            person.attr('transform', function(d) { return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'})
+        };        
+    }
+</script>
+<!--
+    NOTES
+    * Individual figures emphasize these are individuals.  Small numbers make this possible.
+    * Stick figures match RRDP aesthetic and convey simple vulnerability.
+    * Looks better on retina display, predictably.
+
+    IDEAS
+    * Pop out to tell story
+    * Scale according to age
+    * Sagging shoulders for length of stay
+    * Come in over time from direction of origin
+    * Add a little noise for variability, e.g. head size, body/leg ratio, curve alignment, etc.
+    -->
+</body>

@@ -1,0 +1,216 @@
+,gender,age,country of origin,who with in calais,months in europe,months in france,family in europe,european family,dublin applied,feel safe in calais,experienced tear gas or violence by french police
+0,Male,16.0,Eritrea,4.0,2.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+1,Male,16.0,Eritrea,4.0,2.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+2,Male,16.0,Eritrea,7.0,5.0,Alone,Yes,Switzerland United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+3,Male,16.0,Eritrea,24.0,5.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+4,Male,16.0,Sudan,9.0,9.0,Alone,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+5,Male,16.0,Sudan,9.0,9.0,Alone,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+6,Male,16.0,Eritrea,6.0,1.0,Alone,No,,,"No, I don't feel safe at all",Yes
+7,Male,17.0,Sudan,4.0,3.0,Alone,No,,,So-so,Yes
+8,Male,17.0,Sudan,4.0,3.0,Alone,No,,,So-so,Yes
+9,Male,17.0,Sudan,8.0,7.0,With friends,No,,,"No, I don't feel safe at all",Yes
+10,Male,17.0,Sudan,8.0,7.0,With friends,No,,,"No, I don't feel safe at all",Yes
+11,Male,18.0,Sudan,3.0,3.0,Alone,No,,,"No, I don't feel safe",Yes
+12,Male,19.0,Sudan,4.0,4.0,Alone,No,,,"No, I don't feel safe at all",Yes
+13,Male,20.0,Sudan,9.0,9.0,Alone,No,,,"No, I don't feel safe",Yes
+14,Male,21.0,Sudan,12.0,12.0,Alone,No,,,"No, I don't feel safe",Yes
+15,Male,22.0,Sudan,4.0,5.0,Alone,No,,,"No, I don't feel safe",No
+16,Male,24.0,Afghanistan,72.0,1.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+17,Male,30.0,Pakistan,15.0,2.0,Alone,No,,,"Yes, I feel perfectly safe",No
+18,Male,32.0,Sudan,12.0,14.0,Alone,No,,,"No, I don't feel safe",Yes
+19,,,Ethiopia,,,With friends,No,,,So-so,No
+20,Male,,Eritrea,8.0,5.0,Alone,No,,,"Yes, I feel perfectly safe",Yes
+21,Male,12.0,Afghanistan,10.0,2.0,,Yes,United Kingdom,"No, I didn't apply","Yes, I feel perfectly safe",Yes
+22,Male,13.0,Ethiopia (Oromo),18.0,1.0,Alone,No,,,"Yes, I feel perfectly safe",Yes
+23,Male,14.0,Ethiopia,3.0,3.0,Alone,,,,,
+24,Male,14.0,Eritrea,11.0,11.0,Alone,Yes,United Kingdom,"No, I didn't apply","Yes, I feel safe",Yes
+25,Male,14.0,Ethiopia,12.0,11.0,With friends,No,,,"No, I don't feel safe",Yes
+26,Male,15.0,Eritrea,12.0,12.0,With friends,No,,,"No, I don't feel safe at all",Yes
+27,Male,15.0,Tajikistan,2.0,2.0,Alone,,,,"No, I don't feel safe",Yes
+28,Male,15.0,Eritrea,5.0,4.0,Alone,No,,,"No, I don't feel safe",Yes
+29,Male,15.0,Ethiopia (Oromo),12.0,11.0,With friends,No,,,"No, I don't feel safe at all",Yes
+30,Male,15.0,Eritrea,8.0,4.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+31,Male,15.0,Ethiopia,8.0,6.0,Alone,No,,,"No, I don't feel safe at all",Yes
+32,Male,16.0,Eritrea,5.0,5.0,With friends,No,,,"Yes, I feel perfectly safe",Yes
+33,Male,16.0,Eritrea,4.0,3.0,Alone,No,,,"No, I don't feel safe at all",Yes
+34,Male,16.0,Afghanistan,24.0,11.0,Alone,No,,,"No, I don't feel safe at all",Yes
+35,Male,16.0,Eritrea,4.0,3.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+36,Male,16.0,Eritrea,8.0,7.0,Alone,No,,,"No, I don't feel safe",Yes
+37,Male,16.0,Eritrea,4.0,2.0,Alone,Yes,,"No, I didn't apply","No, I don't feel safe",Yes
+38,Male,16.0,Eritrea,10.0,9.0,Alone,No,,,"No, I don't feel safe at all",Yes
+39,Male,16.0,Eritrea,4.0,2.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+40,Male,16.0,,18.0,18.0,Alone,Yes,Denmark Germany,"No, I didn't apply","No, I don't feel safe at all",Yes
+41,Male,16.0,Eritrea,5.0,3.0,With friends,No,,,"No, I don't feel safe at all",Yes
+42,Male,16.0,Eritrea,11.0,10.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+43,Male,16.0,Eritrea,4.0,3.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+44,Male,16.0,Eritrea,4.0,2.0,With friends,No,,,"No, I don't feel safe at all",Yes
+45,Male,16.0,Ethiopia,4.0,2.0,With friends,No,,,"No, I don't feel safe at all",Yes
+46,Male,16.0,Ethiopia,6.0,5.0,Alone,No,,,"No, I don't feel safe at all",Yes
+47,Male,16.0,Sudan,5.0,2.0,Alone,No,,,"No, I don't feel safe",Yes
+48,Male,16.0,Sudan,4.0,4.0,Alone,No,,,"No, I don't feel safe",Yes
+49,Male,16.0,Eritrea,6.0,4.0,Alone,Yes,France,"No, I didn't apply","No, I don't feel safe",Yes
+50,Female,16.0,Eritrea,9.0,9.0,Alone,No,,,"No, I don't feel safe",Yes
+51,Male,16.0,Eritrea,8.0,7.0,Alone,No,,,"No, I don't feel safe",Yes
+52,Male,16.0,Eritrea,8.0,5.0,Alone,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+53,Male,16.0,Eritrea,2.0,,Alone,No,,,"No, I don't feel safe",Yes
+54,Male,16.0,Eritrea,7.0,4.0,Alone,No,,,So-so,Yes
+55,Male,16.0,Eritrea,6.0,18.0,Alone,No,,,"No, I don't feel safe",No
+56,Male,16.0,Ethiopia (Oromo),8.0,8.0,Alone,No,,,"No, I don't feel safe at all",Yes
+57,Male,16.0,Eritrea,7.0,7.0,Alone,Don't know,,,So-so,Yes
+58,Male,16.0,Eritrea,5.0,4.0,Alone,No,,,"No, I don't feel safe at all",Yes
+59,Male,16.0,Ethiopia (Oromo),1.0,8.0,With friends,No,,,"Yes, I feel safe",Yes
+60,Male,16.0,Eritrea,13.0,13.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+61,Male,16.0,Ethiopia (Oromo),6.0,6.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+62,Male,16.0,Sudan,4.0,2.0,Alone,Yes,United Kingdom,I applied but my application was refused,"No, I don't feel safe",Yes
+63,Male,16.0,Eritrea,8.0,6.0,With friends,Yes,Norway United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+64,Male,16.0,Eritrea,8.0,5.0,With friends,Yes,Norway United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+65,Male,16.0,Eritrea,5.0,4.0,With friends,No,,,"No, I don't feel safe at all",Yes
+66,Male,17.0,Eritrea,,2.0,Alone,No,,,"No, I don't feel safe at all",No
+67,Male,17.0,Afghanistan,2.0,2.0,Alone,No,,,"No, I don't feel safe at all",No
+68,Male,17.0,Eritrea,8.0,8.0,With friends,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+69,Male,17.0,Eritrea,15.0,11.0,Alone,No,,,"No, I don't feel safe at all",Yes
+70,Male,17.0,Eritrea,9.0,4.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+71,Male,17.0,Eritrea,8.0,7.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+72,Male,17.0,Eritrea,9.0,4.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+73,Male,17.0,Ethiopia,14.0,2.0,With friends,No,,,"No, I don't feel safe at all",Yes
+74,Male,17.0,Eritrea,12.0,7.0,With friends,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe",Yes
+75,Male,17.0,Eritrea,8.0,7.0,With friends,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+76,Male,17.0,Eritrea,5.0,2.0,With friends,No,,,"No, I don't feel safe at all",Yes
+77,Male,17.0,Ethiopia,18.0,18.0,Alone,No,,,"No, I don't feel safe",Yes
+78,Male,17.0,Eritrea,1.0,8.0,Alone,No,,,"No, I don't feel safe",Yes
+79,Male,17.0,Sudan,12.0,11.0,Alone,No,,,"No, I don't feel safe",Yes
+80,Male,17.0,Eritrea,6.0,3.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+81,Male,17.0,Eritrea,9.0,9.0,With family,No,,,So-so,Yes
+82,Male,17.0,Eritrea,4.0,3.0,With friends,No,,,"No, I don't feel safe",Yes
+83,Male,17.0,Ethiopia,4.0,3.0,With friends,No,,,"Yes, I feel safe",Yes
+84,Male,17.0,Sudan,4.0,3.0,Alone,No,,,"No, I don't feel safe",Yes
+85,Male,17.0,Eritrea,12.0,6.0,Alone,Yes,Other,"No, I didn't apply","No, I don't feel safe",Yes
+86,Male,17.0,Ethiopia,9.0,5.0,Alone,No,,,"No, I don't feel safe at all",Yes
+87,Male,17.0,Eritrea,8.0,8.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+88,Male,17.0,Pakistan,2.0,2.0,Alone,No,,,"No, I don't feel safe at all",Yes
+89,Male,17.0,Ethiopia (Oromo),5.0,5.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+90,Male,17.0,Sudan,10.0,9.0,Alone,No,,,"No, I don't feel safe",Yes
+91,Male,17.0,Eritrea,12.0,8.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+92,Female,17.0,Eritrea,10.0,10.0,With friends,No,,,"No, I don't feel safe at all",Yes
+93,Male,17.0,Eritrea,7.0,6.0,Alone,Yes,United Kingdom,"Yes, I applied but did not receive any result",So-so,Yes
+94,Male,17.0,Eritrea,14.0,12.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+95,Male,17.0,Eritrea,7.0,6.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+96,Female,18.0,Ethiopia,1.0,1.0,With family,Yes,France,"No, I didn't apply",,Yes
+97,Male,18.0,Egypt,14.0,13.0,Alone,No,,,"No, I don't feel safe",Yes
+98,Male,18.0,Eritrea,9.0,3.0,Alone,Yes,United Kingdom,"No, I didn't apply",So-so,Yes
+99,Male,18.0,Sudan,6.0,5.0,Alone,No,,,"No, I don't feel safe",Yes
+100,Male,18.0,Sudan,18.0,17.0,Alone,No,,,"No, I don't feel safe",Yes
+101,Male,19.0,Sudan,4.0,3.0,Alone,No,,,"No, I don't feel safe",Yes
+102,Male,19.0,Afghanistan,8.0,0.0,Alone,Yes,United Kingdom,"No, I didn't apply",So-so,Yes
+103,Male,19.0,Eritrea,14.0,12.0,Alone,No,,,"No, I don't feel safe",Yes
+104,Male,19.0,Eritrea,24.0,23.0,Alone,No,,,"No, I don't feel safe at all",Yes
+105,Male,19.0,Eritrea,12.0,12.0,Alone,Yes,United Kingdom,"No, I didn't apply",So-so,Yes
+106,Male,19.0,Other,3.0,2.0,Alone,No,,,"No, I don't feel safe",Yes
+107,Female,19.0,Eritrea,10.0,10.0,Alone,No,,,"No, I don't feel safe at all",Yes
+108,Male,19.0,Ethiopia,5.0,4.0,Alone,No,,,"No, I don't feel safe at all",Yes
+109,Male,19.0,Ethiopia,2.0,1.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+110,Male,19.0,Eritrea,2.0,1.0,Alone,Don't know,,,"No, I don't feel safe",Yes
+111,Male,19.0,Sudan,13.0,12.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+112,Male,19.0,Eritrea,12.0,11.0,Alone,No,,,"No, I don't feel safe",Yes
+113,Male,19.0,Eritrea,4.0,3.0,Alone,No,,,"No, I don't feel safe",Yes
+114,Male,19.0,Ethiopia (Oromo),12.0,9.0,Alone,No,,,"No, I don't feel safe at all",Yes
+115,Male,19.0,Ethiopia,12.0,12.0,Alone,Yes,United Kingdom,I applied but my application was refused,"No, I don't feel safe",Yes
+116,Female,19.0,Ethiopia,10.0,8.0,Alone,No,,,"No, I don't feel safe at all",Yes
+117,Male,20.0,Eritrea,8.0,6.0,With friends,No,,,"Yes, I feel perfectly safe",Yes
+118,Male,20.0,Eritrea,14.0,13.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+119,Male,20.0,Sudan,20.0,19.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+120,Male,20.0,Sudan,4.0,3.0,Alone,No,,,"No, I don't feel safe",Yes
+121,Male,20.0,Ethiopia,6.0,2.0,Alone,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+122,Male,21.0,Eritrea,6.0,2.0,Alone,Yes,,"No, I didn't apply","No, I don't feel safe at all",Yes
+123,Male,21.0,Sudan,8.0,7.0,Alone,No,,,"No, I don't feel safe",Yes
+124,Male,21.0,Eritrea,5.0,4.0,Alone,No,,,"No, I don't feel safe",Yes
+125,Female,21.0,Ethiopia,11.0,9.0,With friends,No,,,"No, I don't feel safe at all",Yes
+126,Male,22.0,Afghanistan,18.0,0.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",No
+127,Male,22.0,Eritrea,14.0,12.0,With friends,No,,,"No, I don't feel safe",Yes
+128,Male,22.0,Palestine,24.0,3.0,Alone,No,,,"No, I don't feel safe at all",Yes
+129,Male,22.0,Pakistan,84.0,2.0,Alone,No,,,"No, I don't feel safe at all",Yes
+130,Female,22.0,Ethiopia,15.0,10.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+131,Female,22.0,Ethiopia,11.0,8.0,Alone,No,,,"No, I don't feel safe",No
+132,Male,23.0,Sudan,8.0,7.0,Alone,No,,,"No, I don't feel safe",
+133,Male,23.0,Eritrea,2.0,,Alone,Yes,United Kingdom,"No, I didn't apply","Yes, I feel perfectly safe",No
+134,Male,23.0,Ethiopia,24.0,23.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+135,Male,23.0,Eritrea,2014.0,2014.0,Alone,No,,,"No, I don't feel safe at all",Yes
+136,Female,23.0,Eritrea,3.0,3.0,Alone,,,,"No, I don't feel safe at all",Yes
+137,Male,23.0,Sudan,18.0,17.0,Alone,No,,,"No, I don't feel safe at all",Yes
+138,Male,23.0,Eritrea,5.0,4.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+139,Female,23.0,Eritrea,3.0,3.0,Alone,No,,,"No, I don't feel safe at all",Yes
+140,Male,23.0,Ethiopia,24.0,12.0,Alone,Yes,,,"No, I don't feel safe at all",Yes
+141,Male,23.0,Ethiopia,17.0,17.0,Alone,Yes,United Kingdom,I applied but my application was refused,So-so,Yes
+142,Male,23.0,Eritrea,13.0,12.0,Alone,No,,,"No, I don't feel safe",Yes
+143,Male,23.0,Sudan,5.0,4.0,Alone,No,,,"No, I don't feel safe",Yes
+144,Male,24.0,Afghanistan,72.0,1.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+145,Male,24.0,Sudan,5.0,4.0,Alone,No,,,"No, I don't feel safe",Yes
+146,Male,24.0,Sudan,20.0,18.0,With friends,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe at all",Yes
+147,Male,24.0,Egypt,,2.0,Alone,Yes,United Kingdom,"No, I didn't apply",So-so,Yes
+148,Male,24.0,Eritrea,24.0,24.0,Alone,No,,,"No, I don't feel safe",Yes
+149,Male,24.0,Sudan,11.0,10.0,Alone,No,,,"No, I don't feel safe",Yes
+150,Male,24.0,Ethiopia,15.0,11.0,With friends,No,,,"No, I don't feel safe at all",Yes
+151,Female,24.0,Ethiopia (Oromo),8.0,8.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",No
+152,Female,24.0,Ethiopia,,6.0,Alone,Yes,France,"Yes, I applied but did not receive any result","No, I don't feel safe",Yes
+153,Male,25.0,Iran,20.0,3.0,Alone,No,,,"Yes, I feel perfectly safe",No
+154,Male,25.0,Ethiopia,14.0,2.0,With friends,No,,,"No, I don't feel safe at all",Yes
+155,Male,25.0,Sudan,7.0,6.0,Alone,No,,,"No, I don't feel safe at all",Yes
+156,Female,25.0,Eritrea,8.0,8.0,Alone,Yes,United Kingdom,I applied but my application was refused,"No, I don't feel safe at all",No
+157,Male,25.0,Sudan,8.0,4.0,With friends,No,,,So-so,Yes
+158,Male,25.0,Sudan,21.0,12.0,Alone,No,,,"No, I don't feel safe",Yes
+159,Male,25.0,Sudan,24.0,19.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+160,Male,25.0,Sudan,18.0,17.0,Alone,No,,,"No, I don't feel safe",Yes
+161,Male,25.0,Eritrea,16.0,15.0,Alone,No,,,"No, I don't feel safe",Yes
+162,Male,25.0,Eritrea,12.0,11.0,Alone,No,,,"No, I don't feel safe",Yes
+163,Male,25.0,Eritrea,12.0,11.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+164,Male,25.0,Ethiopia,6.0,3.0,With friends,No,,,"No, I don't feel safe at all",No
+165,Male,26.0,Pakistan,36.0,1.0,With friends,No,,,"No, I don't feel safe at all",Yes
+166,Male,26.0,Sudan,5.0,4.0,Alone,No,,,"No, I don't feel safe",Yes
+167,Male,26.0,Sudan,8.0,8.0,Alone,No,,,"Yes, I feel safe",Yes
+168,Male,26.0,Sudan,19.0,18.0,Alone,No,,,"No, I don't feel safe at all",Yes
+169,Male,26.0,Sudan,19.0,18.0,Alone,No,,,"No, I don't feel safe",Yes
+170,Male,26.0,,10.0,10.0,With family,Yes,Germany,"No, I didn't apply","Yes, I feel perfectly safe",No
+171,Male,27.0,Eritrea,1.0,1.0,With friends,No,,,So-so,No
+172,Male,27.0,Ethiopia,12.0,11.0,Alone,No,,,"No, I don't feel safe",Yes
+173,Female,27.0,Eritrea,12.0,12.0,With family,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+174,Male,27.0,Eritrea,14.0,13.0,Alone,Yes,United Kingdom,"No, I didn't apply",So-so,Yes
+175,Male,27.0,Sudan,16.0,15.0,Alone,No,,,"No, I don't feel safe at all",No
+176,Male,27.0,Sudan,18.0,17.0,Alone,No,,,"No, I don't feel safe",Yes
+177,Male,27.0,Sudan,6.0,5.0,Alone,No,,,"No, I don't feel safe",Yes
+178,Male,27.0,Eritrea,2.0,1.0,Alone,No,,,"No, I don't feel safe",Yes
+179,Male,27.0,Eritrea,36.0,36.0,With friends,Yes,United Kingdom,"No, I didn't apply","Yes, I feel perfectly safe",No
+180,Male,27.0,Iraq (Kurdish),36.0,3.0,With friends,No,,,"No, I don't feel safe",Yes
+181,Female,27.0,Ethiopia (Oromo),6.0,6.0,Alone,No,,,"No, I don't feel safe",Yes
+182,Male,28.0,Pakistan,12.0,11.0,With friends,No,,,"Yes, I feel perfectly safe",No
+183,Male,28.0,Sudan,3.0,2.0,Alone,No,,,"No, I don't feel safe at all",Yes
+184,Male,28.0,Sudan,20.0,19.0,Alone,No,,,"No, I don't feel safe",Yes
+185,Male,28.0,Afghanistan,24.0,8.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+186,Female,28.0,Ethiopia (Oromo),6.0,5.0,Alone,No,,,"No, I don't feel safe",Yes
+187,Male,29.0,Ethiopia,2.0,2.0,Alone,No,,,"No, I don't feel safe at all",No
+188,Male,29.0,Ethiopia,23.0,22.0,Alone,No,,,"No, I don't feel safe at all",Yes
+189,Male,29.0,Sudan,12.0,11.0,Alone,Yes,United Kingdom,"Yes, I applied but did not receive any result","No, I don't feel safe",Yes
+190,Male,29.0,Iraq (Kurdish),2.0,2.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",No
+191,Male,29.0,Eritrea,9.0,9.0,Alone,Yes,France,"Yes, I applied but did not receive any result",So-so,Yes
+192,Male,29.0,Ethiopia,9.0,9.0,Alone,Yes,France,"Yes, I applied but did not receive any result","No, I don't feel safe",No
+193,Male,30.0,Sudan,7.0,7.0,,No,,,"No, I don't feel safe",No
+194,Male,30.0,Pakistan,12.0,5.0,With friends,No,,,"No, I don't feel safe at all",Yes
+195,Male,30.0,Sudan,24.0,23.0,Alone,No,,,"No, I don't feel safe",Yes
+196,Male,30.0,Sudan,24.0,15.0,Alone,No,,,"No, I don't feel safe at all",Yes
+197,Male,30.0,Sudan,24.0,23.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+198,Male,30.0,Sudan,12.0,11.0,Alone,No,,,"No, I don't feel safe",Yes
+199,Male,32.0,Sudan,4.0,3.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+200,Male,32.0,Sudan,12.0,11.0,Alone,No,,,"No, I don't feel safe",Yes
+201,Male,32.0,Afghanistan,36.0,35.0,Alone,Yes,United Kingdom,I applied but my application was refused,"No, I don't feel safe",Yes
+202,Male,32.0,Sudan,12.0,8.0,With friends,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe at all",Yes
+203,Male,32.0,Pakistan,84.0,27.0,Alone,No,,,"No, I don't feel safe at all",Yes
+204,Male,32.0,Ethiopia,12.0,9.0,With friends,No,,,"No, I don't feel safe at all",Yes
+205,Male,33.0,Sudan,14.0,13.0,Alone,No,,,"No, I don't feel safe at all",Yes
+206,Male,35.0,Sudan,14.0,11.0,Alone,No,,,"No, I don't feel safe at all",Yes
+207,Male,35.0,Sudan,14.0,13.0,Alone,No,,,"No, I don't feel safe at all",Yes
+208,Male,35.0,Sudan,4.0,3.0,Alone,No,,,"No, I don't feel safe at all",Yes
+209,Male,35.0,Sudan,15.0,15.0,Alone,No,,,So-so,Yes
+210,Male,36.0,Sudan,4.0,3.0,Alone,No,,,"No, I don't feel safe at all",Yes
+211,Male,38.0,Sudan,18.0,15.0,Alone,No,,,"No, I don't feel safe at all",Yes
+212,Male,40.0,Sudan,12.0,11.0,Alone,No,,,"No, I don't feel safe at all",Yes
+213,Male,41.0,Ethiopia,3.0,3.0,Alone,Yes,United Kingdom,"No, I didn't apply","No, I don't feel safe",Yes
+214,Male,49.0,Sudan,6.0,6.0,Alone,No,,,So-so,No
