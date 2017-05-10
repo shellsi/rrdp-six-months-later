@@ -8,7 +8,7 @@
             height:500px;
         }
 
-        .fig {
+        .person {
             stroke: black;
             fill: none;
             stroke-width: 1px solid;
@@ -22,39 +22,66 @@
 </svg>
 <script>
 
-    var createPerson = function(d) {
-        var person = d3.select('svg').append('g').attr('class', 'fig')
+    var createPerson = function(sel, d) {
+        var person = sel.append('g').attr('class', 'person')
+        .datum(d)
 
         // head and body
-        person.append('circle').attr('cx', 30).attr('cy', 8).attr('r', 5)//.attr('stroke', 'black')
-        person.append('path').attr('d', "M30 13 V23")
+        // var rndHead = d3.randomNormal(4, 0.5)
+        var rndHead = d3.randomUniform(3, 5)
+        // var rndWaist = d3.randomUniform(3, 5)
+        // var rndArms = d3.randomUniform()
+
+
+        person.append('ellipse').attr('cx', 30).attr('cy', 5)
+            .attr('ry', 5)
+            .attr('rx', rndHead)//.attr('stroke', 'black')
+        person.append('path').attr('d', "M30 10 v10")
 
         // arm and shoulders
-        person.append('path').attr('d', 'M25 25 q 5 -20 10 0')
+        person.append('path').attr('d', 'M25 20 q 5 -17 10 0')
 
         // lower half
-        person.append('path').attr('d', 'M28 35 q 2 -23 4 0')
+        person.append('path').attr('d', 'M28 30 q 2 -20 4 0')
 
         // dress?
         if(d.gender == 'Female') {
-            person.append('path').attr('d', 'M27 30 q 3 -18 6 0 L27 30').style('fill', 'white')
+            person.append('path').attr('d', 'M27 25 q 3 -18 6 0 L27 25').style('fill', 'black')
         }
 
         return person;
     }
 
+    var renderPerson = function(sel, d) {
+        var ageHeight = d3.scaleLinear() // assummes linear growth to adulthood
+                .domain([0, 21])
+                .range([1, 10]) // leg, torso 
+                .clamp(true);
+
+        
+    }
+
+    var createPopulation = function(data) {
+        population = d3.select('svg').selectAll('person')
+                    .data(data)
+                    .enter()
+                    .append('g')
+
+        population.each(renderPerson);
+    }
+
     // population = [{gender: 'male', age:16},{gender: 'female', age:25}]
     population = d3.csv('6m_vis_data.csv', function(data) {
         // population = data;
-
-        simple(data)
+        
+        simpleLayout(data)
     })
 
 
-    var simple = function(population) {
+    var simpleLayout = function(population) {
         var maxRow = 20;
         for (i = population.length - 1; i >= 0; i--) {
-            person = createPerson(population[i])
+            person = createPerson(d3.select('svg'), population[i])
             person.attr('transform', function(d) { return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'})
         };        
     }
