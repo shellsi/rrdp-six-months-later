@@ -3,69 +3,39 @@
 </head>
 <body>
     <style>
-        svg {
-            width: 800px;
-            height:500px;
-        }
+    svg {
+        width: 100%;
+        height:450px;
+    }
 
-        .person {
-            stroke: black;
-            fill: none;
-            stroke-width: 1px solid;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            shape-rendering: geometricPrecision;
-        }
+    .person {
+        stroke: black;
+        fill: none;
+        stroke-width: 1px solid;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        shape-rendering: geometricPrecision;
+    }
 
+    #months-countdown {
+        clear: left;
+    }
     </style>
-<svg>
-</svg>
-<script>
+
+    <svg></svg>
+    <div id="months-countdown"></div>
+
+    <script>
     var ageHeight = d3.scaleLinear() // assumes linear growth to adulthood
                 .domain([9, 21])
                 .range([1, 10]) // leg, torso 
                 .clamp(true);
 
-    var createPerson = function(sel, d) {
-        var person = sel.append('g').attr('class', 'person')
-        .datum(d)
-
-        // head and body
-        // var rndHead = d3.randomNormal(4, 0.5)
-        var rndHead = d3.randomUniform(3, 5)
-        // var rndWaist = d3.randomUniform(3, 5)
-        // var rndArms = d3.randomUniform()
-
-
-        person.append('ellipse').attr('cx', 10).attr('cy', 5)
-            .attr('ry', 5)
-            .attr('rx', rndHead)//.attr('stroke', 'black')
-        person.append('path').attr('d', "M10 10 v10")
-
-        // arm and shoulders
-        person.append('path').attr('d', 'M5 20 q 5 -17 10 0')
-
-        // lower half
-        person.append('path').attr('d', 'M8 30 q 2 -20 4 0')
-
-        // dress?
-        if(d.gender == 'Female') {
-            person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
-        }
-
-        // age height stick
-        person.append('path').attr('d', function(d) {
-            return 'M3 30 v-' + (3 * ageHeight(d.age))
-        })
-
-        return person;
-    }
-
     var renderPerson = function(d) {
 
         // head and body
         // var rndHead = d3.randomNormal(4, 0.5)
-        var rndHead = d3.randomUniform(3, 5)
+        var rndHead = d3.randomUniform(4, 5)
         // var rndWaist = d3.randomUniform(3, 5)
         // var rndArms = d3.randomUniform()
 
@@ -97,13 +67,6 @@
             person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
         }
 
-        // age height stick
-        // person.append('path').attr('d', function(d) {
-        //     if(!!d.age) {
-        //         return 'M3 30 v-' + (3 * ageHeight(d.age))
-        //     }
-        // })
-
         return person;
     }
 
@@ -112,22 +75,19 @@
                     .data(data)
                     .enter()
                     .append('g')
+                    
+        population
+            .append("svg:title")
+            .text(function(d) {
+                return d.gender + ', ' + Math.round(d.age) + ', from ' + d['country of origin'];
+            })
 
         population.each(renderPerson);
     }
 
-    // population = [{gender: 'male', age:16},{gender: 'female', age:25}]
-    population = d3.csv('6m_vis_data.csv', function(data) {
-        // population = data;
-        createPopulation(data)
-        betterLayout();
-    })
-
-
-
     var betterLayout = function(maxRow) {
         maxRow = maxRow || 20;
-        d3.selectAll('.person').transition().attr('transform', function(d, i) { 
+        d3.selectAll('.person').transition().duration(2000).ease(d3.easeCubicInOut).attr('transform', function(d, i) { 
             return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'
         })
 
@@ -143,6 +103,46 @@
         }     
     }
 
+    var arrivalsLayout = function(months, maxRow, duration) {
+        maxRow = maxRow || 30;
+        duration = duration || 2000;
+        var pos = 0; // for next available place
+        var cPos = [0,0,0,0,0,0,0, 0, 0, 0]
+
+        sortBy('months in france');  // months in europe?
+
+        d3.selectAll('.person')
+            .transition().duration(duration).ease(d3.easeCubicInOut)
+            .attr('transform', function(d) {
+                // console.log(d['months in france'])
+                if(d['months in france'] < months) {
+                    var i = countries.indexOf(d['country of origin'])
+                    var x = cPos[i]++;
+                    return 'translate(' + (500 + x * 10) + ', '+ (i * 40) +') scale(0.5)';// from flag or direction of origin
+                } else {
+                    pos++
+                    return 'translate(' + ((pos%maxRow)*20) + ',' + (Math.floor(pos / maxRow)*35) +')';
+                }
+            })
+    }
+
+    var countdownMonth = function(month) {
+        month = typeof(month) == 'undefined' ? 30 : month;
+        console.log(month)
+        d3.select('#months-countdown').text(month + (month == 1 ? ' month': ' months') + ' ago')
+        month--;
+        if(month == -1) return;
+        setTimeout(function() { arrivalsLayout(month, 20, 1000); countdownMonth(month) }, 1000)
+    }
+
+    var showCountries = function() {
+        countries.forEach(function(country) {
+            d3.select('svg').append('text').text(country)
+                .attr('x', 500)
+                .attr('y', 40 * countries.indexOf(country))
+        })
+    }
+
     var sortBy = function(attr) {
         switch(attr) {
             case 'age':
@@ -150,25 +150,59 @@
             break;
 
             case 'gender': // non-binary?
-                d3.selectAll('.person').sort(function(a,b){return a.gender == 'Female' && b.gender == 'Male' ? -1:0;})
+                d3.selectAll('.person').sort(function(a,b){return a.gender == 'Female' && b.gender == 'Male' ? -1:1;})
+            break;
+
+            case 'months in europe':
+                d3.selectAll('.person').sort(function(a,b){return b['months in europe'] - a['months in europe'];})
+            break;
+
+            case 'months in france':
+                d3.selectAll('.person').sort(function(a,b){
+                    if(b['months in france'] == a['months in france']) return b['index'] - a['index'];
+                    return b['months in france'] - a['months in france']
+                    ;})
             break;
 
         }
     } 
-</script>
+
+    countries = ["Ethiopia", "Ethiopia (Oromo)", "Sudan", "Afghanistan", "Tajikistan", "Eritrea", "Pakistan", "Egypt", "Other", "Palestine", "Iran", "Iraq (Kurdish)"]
+
+    showCountries()
+
+    population = d3.csv('6m_vis_data.csv', function(data) {
+        createPopulation(data)
+        betterLayout();
+    })
+
+
+    </script>
 <!--
     NOTES
     * Individual figures emphasize these are individuals.  Small numbers make this possible.
     * Stick figures match RRDP aesthetic and convey simple vulnerability.
     * Looks better on retina display, predictably.
     * No age for a couple, scale to adult or average?
+    * A few people don't give time in France or Europe.
+    * Style consistently with http://refugeerights.org.uk/wp-content/uploads/2017/04/RRDP_SixMonthsOn.pdf
+    * Include big percentages along with stickman partitions to questions.
+    ** I.e. white / cyan on black
+    ** Call outs
+    ** May be able to use images to background specific question theme responses.
+    ** Pie and stack charts use a lot of space for the information they provide.
 
     IDEAS
     * Pop out to tell story
-    * Scale according to age
+    * Need an unabiguous but unobtrusive notation for minors.
+    * How to represent police violence and healthcare questions?
+    * How to respresent many-response answers?
+    * Lay people out on timeline for their time in france
+    * Flags behind/below people, possibly simplified.
     * Sagging shoulders for length of stay
     * Come in over time from direction of origin
     * Add a little noise for variability, e.g. head size, body/leg ratio, curve alignment, etc.
     * leave body line off to match RRDP logo?  Too abstract?
+    * Chord or Sankey charts would be appropriate for origin and destination but might be too unfamiliar.
     -->
 </body>
