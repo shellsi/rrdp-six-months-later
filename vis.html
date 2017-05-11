@@ -125,20 +125,36 @@
 
 
 
-    var betterLayout = function() {
-        var maxRow = 20;
-        d3.selectAll('.person').attr('transform', function(d, i) { 
+    var betterLayout = function(maxRow) {
+        maxRow = maxRow || 20;
+        d3.selectAll('.person').transition().attr('transform', function(d, i) { 
             return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'
         })
 
         // age strips
+        d3.selectAll('.age-strip').remove(); // clear prior
         var height = 3*ageHeight(18)
         var y = 30 - height
         for(i = 0; i < d3.selectAll('.person').nodes().length / maxRow; i++) {
-            d3.select('svg').append('rect').attr('class','age-strip').style('fill', '#fee').style('stroke', '#fcc')
-            .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).lower()
+            d3.select('svg').append('rect').attr('class','age-strip')
+            // .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fee')//.style('stroke', '#fcc').lower()
+            .attr('x',0).attr('height',2).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fcc').lower()
+
         }     
     }
+
+    var sortBy = function(attr) {
+        switch(attr) {
+            case 'age':
+                d3.selectAll('.person').sort(function(a,b){return a.age - b.age;})
+            break;
+
+            case 'gender': // non-binary?
+                d3.selectAll('.person').sort(function(a,b){return a.gender == 'Female' && b.gender == 'Male' ? -1:0;})
+            break;
+
+        }
+    } 
 </script>
 <!--
     NOTES
