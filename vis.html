@@ -3,6 +3,11 @@
 </head>
 <body>
     <style>
+
+    body {
+        font-family: arial;
+    }
+
     svg {
         width: 100%;
         height:450px;
@@ -19,6 +24,12 @@
 
     #months-countdown {
         clear: left;
+        font-size: 60px;
+    }
+
+    .country-label {
+        font-size: 20px;
+        fill: lightgrey;
     }
     </style>
 
@@ -110,15 +121,16 @@
         var cPos = [0,0,0,0,0,0,0, 0, 0, 0]
 
         sortBy('months in france');  // months in europe?
+        updateMonth(months)
 
         d3.selectAll('.person')
             .transition().duration(duration).ease(d3.easeCubicInOut)
             .attr('transform', function(d) {
                 // console.log(d['months in france'])
                 if(d['months in france'] < months) {
-                    var i = countries.indexOf(d['country of origin'])
+                    var i = 1 + countries.indexOf(d['country of origin'])
                     var x = cPos[i]++;
-                    return 'translate(' + (500 + x * 10) + ', '+ (i * 40) +') scale(0.5)';// from flag or direction of origin
+                    return 'translate(' + (600 + x * 10) + ', '+ (i * 30) +') scale(0.5)';// from flag or direction of origin
                 } else {
                     pos++
                     return 'translate(' + ((pos%maxRow)*20) + ',' + (Math.floor(pos / maxRow)*35) +')';
@@ -128,8 +140,7 @@
 
     var countdownMonth = function(month) {
         month = typeof(month) == 'undefined' ? 30 : month;
-        console.log(month)
-        d3.select('#months-countdown').text(month + (month == 1 ? ' month': ' months') + ' ago')
+        updateMonth(month)
         month--;
         if(month == -1) return;
         setTimeout(function() { arrivalsLayout(month, 20, 1000); countdownMonth(month) }, 1000)
@@ -137,10 +148,15 @@
 
     var showCountries = function() {
         countries.forEach(function(country) {
-            d3.select('svg').append('text').text(country)
-                .attr('x', 500)
-                .attr('y', 40 * countries.indexOf(country))
+            d3.select('svg').append('text').attr('class', 'country-label').text(country)
+                .attr('text-anchor', 'end')
+                .attr('x', 600)
+                .attr('y', 15 + 30 * (1 + countries.indexOf(country)))
         })
+    }
+
+    var updateMonth = function(month) {
+        d3.select('#months-countdown').text(month == 0 ? 'Now' : month + (month == 1 ? ' month': ' months') + ' ago')
     }
 
     var sortBy = function(attr) {
@@ -191,6 +207,7 @@
     ** Call outs
     ** May be able to use images to background specific question theme responses.
     ** Pie and stack charts use a lot of space for the information they provide.
+    * The time is possible deceptive since is doesn't show the people who have left at the time of the survey.
 
     IDEAS
     * Pop out to tell story
