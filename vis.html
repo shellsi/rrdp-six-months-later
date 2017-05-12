@@ -39,8 +39,8 @@
 
     <script>
     var ageHeight = d3.scaleLinear() // assumes linear growth to adulthood
-                .domain([9, 21])
-                .range([1, 10]) // leg, torso 
+                .domain([12, 21])
+                .range([5, 10]) // leg, torso 
                 .clamp(true);
 
     var renderPerson = function(d) {
@@ -63,10 +63,10 @@
         })
 
         person.append('ellipse').attr('cx', 10).attr('cy', function(d) {
-            return 30 - 2 * ageHeight(d.age) - 5;
+            return 30 - 2.5 * ageHeight(d.age);// - 5;
         })
-            .attr('ry', 5)
-            .attr('rx', rndHead)//.attr('stroke', 'black')
+            .attr('ry', function(d) { return ageHeight(d.age) / 2})
+            .attr('rx', function(d) { return ageHeight(d.age) / 2});//rndHead)//.attr('stroke', 'black')
 
         // body line    
         person.append('path').attr('d', function(d) {
@@ -121,7 +121,7 @@
         for(i = 0; i < d3.selectAll('.person').nodes().length / maxRow; i++) {
             d3.select('#chart').append('rect').attr('class','age-strip')
             // .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fee')//.style('stroke', '#fcc').lower()
-            .attr('x',0).attr('height',2).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fcc').lower()
+            .attr('x',0).attr('height',1).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#f66').lower()
 
         }     
     }
@@ -235,6 +235,7 @@
     ** Pie and stack charts use a lot of space for the information they provide.
     * The time is possible deceptive since is doesn't show the people who have left at the time of the survey.
     * Are some flags contentious?
+    * Check age height - should hit line at 18.
 
 
     IDEAS
