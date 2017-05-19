@@ -14,8 +14,8 @@
     }
 
     #chart {
-        width: 100%;
-        height:450px;
+        width: 500px;//100%;
+        height: 100%;//400px;
     }
 
     .person {
@@ -25,6 +25,10 @@
         stroke-linecap: round;
         stroke-linejoin: round;
         shape-rendering: geometricPrecision;
+    }
+
+    .person > svg {
+        display: 'none';
     }
 
     #months-countdown {
@@ -37,11 +41,54 @@
         font-size: 20px;
         fill: lightgrey;
     }
+
+    .big-number {
+        font-size: xx-large;
+    }
+
+    #percentages {
+            display: inline-block;
+            vertical-align: top;
+    }
     </style>
 <div class="container">
     <div class="row">
-        <div class="">
+        <div class="col-md-8">
             <svg id="chart"></svg>
+        </div>
+        <div class="col-md-4">
+            <h2>Question</h2>
+                <select class="form-control"  onchange="colourByResponse($(this).val())">
+                    <option value="dublin applied">Dublin applied?</option>
+                    <option value="who with in calais">Who with in calais?</option>
+                    <option value="country of origin">Country of orgin?</option>
+                    <option value="feel safe in calais">Feel safe in calais?</option>
+                    <option value="experienced tear gas or violence by french police">experienced tear gas or violence by french police?</option>
+                    <option value="family in europe">family in europe?</option>
+                    <option value="european family">european family?</option>
+                </select>
+            <div id="percentages">
+                <h2>Sort by...</h2>
+            
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sortby" onclick="sortBy('age');betterLayout()" value="age" checked>
+                    Age
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sortby" onclick="sortBy('months in france');betterLayout()" value="months in france" checked>
+                    Months in France
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sortby" onclick="sortBy('months in europe');betterLayout()" value="months in europe" checked>
+                    Months in Europe
+                </label>
+            </div>
+        </div>
                 <div id="months-countdown"></div>
                 <input
                 type="range"
@@ -52,34 +99,29 @@
                 data-orientation="vertical" // default horizontal
             >
         </div>
+        
 </div>
 <div class="row">
-    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
 
-            <h2>Question</h2>
-                <select>
-                    <option class="form-control" value="dublin applied">Dublin applied?</option>
-                </select>
-        </div>
     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
             <h2>Sort by...</h2>
             
             <div class="radio">
                 <label>
-                    <input type="radio" name="sortby" id="optionsRadios1" value="age" checked>
+                    <input type="radio" name="sortby" onclick="sortBy('age');betterLayout()" value="age" checked>
                     Age
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="sortby" id="optionsRadios1" value="months in calais" checked>
-                    Months in Calais
+                    <input type="radio" name="sortby" onclick="sortBy('months in france');betterLayout()" value="months in france" checked>
+                    Months in France
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="sortby" id="optionsRadios1" value="months in france" checked>
-                    Months in France
+                    <input type="radio" name="sortby" onclick="sortBy('months in europe');betterLayout()" value="months in europe" checked>
+                    Months in Europe
                 </label>
             </div>
         </div>
@@ -116,7 +158,7 @@
             d3.xml('flags/' + d['country of origin'] + ".svg").mimeType("image/svg+xml").get(function(error, xml) {
                     if (error) throw error;
                     d3.select(that).node().appendChild(xml.documentElement);
-                    d3.select(that).select('svg').attr('width', 10).attr('height', 10).attr('y', 20).style('opacity', 0.5).lower()
+                    d3.select(that).select('svg').attr('width', 18).attr('height', 18).attr('y', 10).style('opacity', 0.8).lower()
                 });    
         })
 
@@ -182,6 +224,27 @@
         //     .attr('x',0).attr('height',1).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#f66').lower()
 
         // }     
+    }
+
+    var groupedLayout = function(question, maxRow, duration) {
+        duration = duration || 2000;
+        maxRow = maxRow || 30;
+
+        sortBy(question);
+
+        var x = y = 0;
+        var last = null;
+
+        d3.selectAll('.person')
+            .transition().duration(duration).ease(d3.easeCubicInOut)
+            .attr('transform', function(d) {
+                if(x > maxRow || (last !== null && last !== d[question])) {
+                    x = 0;
+                    y++;
+                }
+                last = d[question];
+                return 'translate(' + (x++*20) + ',' + (y*35) +')';
+            })
     }
 
 
@@ -251,6 +314,10 @@
                 d3.selectAll('.person').sort(function(a,b){return a.gender == 'Female' && b.gender == 'Male' ? -1:1;})
             break;
 
+             case 'dublin applied':
+                d3.selectAll('.person').sort(function(a,b){return a['dublin applied'] < b['dublin applied'] ? -1:1;})
+            break;
+
             case 'country of origin': // non-binary?
                 d3.selectAll('.person').sort(function(a,b){return a['country of origin'] < b['country of origin'] ? -1:1;})
             break;
@@ -270,17 +337,49 @@
     } 
 
     var colourByResponse = function(question) {
-        var palette = ['#000', '#32c0cc', '#cc3366', '#99cc66']
+        var palette = ['#000', '#32c0cc', '#cc3366', '#99cc66', 'purple', 'orange', 'teal']
 
         var answers = d3.selectAll('.person').data().map(function(d){if (typeof d !== 'undefined') return d[question]})
         var uniqueAnswers = [...new Set(answers)].sort()
 
         d3.selectAll('.person *').attr('stroke', function(d) {
+            if(question == 'country of origin') { return 'black'}
             if (typeof d !== 'undefined') {
                 var i = uniqueAnswers.indexOf(d[question])
                 return palette[i];
             }
         })
+
+        // tot up answers
+        var freq = {}
+        answers.forEach(function(a){
+            if(typeof(freq[a]) == 'undefined') { 
+                freq[a] = 1;
+            } else freq[a]++
+        })
+
+        d3.selectAll('.percentage').remove()
+        d3.selectAll('.person svg').style('display', function() {
+            return question == "country of origin" ? '': 'none';
+        })
+        for(f in freq) {
+            var percentage = d3.select('#percentages').append('div').classed('percentage', true)
+            
+
+            percentage.append('span').attr('class', 'big-number')
+                .text((freq[f] / answers.length * 100).toFixed(1) + '% ')
+                
+                if(question == 'country of origin') {
+                    percentage.append('img').attr('src', 'flags/' + f + '.svg')
+                    .attr('width', 30).attr('height', 30).attr('y', 15)
+                } else {
+                    percentage.style('color', function() {
+                        return palette[uniqueAnswers.indexOf(f)];
+                    })
+                }
+
+            percentage.append('span').html(function() { return f == '' ? '(no answer)' : f})
+        }
     }
 
     var highlightMinors = function() {
@@ -294,7 +393,7 @@
 
     countries = ["Ethiopia", "Ethiopia (Oromo)", "Sudan", "Afghanistan", "Tajikistan", "Eritrea", "Pakistan", "Egypt", "Other", "Palestine", "Iran", "Iraq (Kurdish)"]
 
-    showCountries()
+    // showCountries()
 
     population = d3.csv('6m_vis_data.csv', function(data) {
         createPopulation(data)
