@@ -1,5 +1,10 @@
 <head>
-        <script src="d3.v4.min.js"></script>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/rangeslider.js/dist/rangeslider.min.js"></script>
+        <script src="bower_components/d3/d3.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 </head>
 <body>
     <style>
@@ -33,11 +38,64 @@
         fill: lightgrey;
     }
     </style>
+<div class="container">
+    <div class="row">
+        <div class="">
+            <svg id="chart"></svg>
+                <div id="months-countdown"></div>
+                <input
+                type="range"
+                min="0"                    // default 0
+                max="30"                  // default 100
+                step="1"                   // default 1
+                value="0"                 // default min + (max-min)/2
+                data-orientation="vertical" // default horizontal
+            >
+        </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
 
-    <svg id="chart"></svg>
-    <div id="months-countdown"></div>
+            <h2>Question</h2>
+                <select>
+                    <option class="form-control" value="dublin applied">Dublin applied?</option>
+                </select>
+        </div>
+    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
+            <h2>Sort by...</h2>
+            
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sortby" id="optionsRadios1" value="age" checked>
+                    Age
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sortby" id="optionsRadios1" value="months in calais" checked>
+                    Months in Calais
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input type="radio" name="sortby" id="optionsRadios1" value="months in france" checked>
+                    Months in France
+                </label>
+            </div>
+        </div>
+        
+    </div>
+</div>
 
     <script>
+    // Initialize a new plugin instance for all
+    // e.g. $('input[type="range"]') elements.
+    $('input[type="range"]').rangeslider({onSlide: function(position, value) { 
+        console.log(position, value)
+        arrivalsLayout(value); 
+    }});
+
+
     var ageHeight = d3.scaleLinear() // assumes linear growth to adulthood
                 .domain([12, 21])
                 .range([5, 10]) // leg, torso 
@@ -58,7 +116,7 @@
             d3.xml('flags/' + d['country of origin'] + ".svg").mimeType("image/svg+xml").get(function(error, xml) {
                     if (error) throw error;
                     d3.select(that).node().appendChild(xml.documentElement);
-                    d3.select(that).select('svg').attr('width', 20).attr('height', 20).attr('y', 10).style('opacity', 0.4).lower()
+                    d3.select(that).select('svg').attr('width', 10).attr('height', 10).attr('y', 20).style('opacity', 0.5).lower()
                 });    
         })
 
@@ -115,16 +173,18 @@
         })
 
         // age strips
-        d3.selectAll('.age-strip').remove(); // clear prior
-        var height = 3*ageHeight(18)
-        var y = 30 - height
-        for(i = 0; i < d3.selectAll('.person').nodes().length / maxRow; i++) {
-            d3.select('#chart').append('rect').attr('class','age-strip')
-            // .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fee')//.style('stroke', '#fcc').lower()
-            .attr('x',0).attr('height',1).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#f66').lower()
+        // d3.selectAll('.age-strip').remove(); // clear prior
+        // var height = 3*ageHeight(18)
+        // var y = 30 - height
+        // for(i = 0; i < d3.selectAll('.person').nodes().length / maxRow; i++) {
+        //     d3.select('#chart').append('rect').attr('class','age-strip')
+        //     // .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fee')//.style('stroke', '#fcc').lower()
+        //     .attr('x',0).attr('height',1).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#f66').lower()
 
-        }     
+        // }     
     }
+
+
 
     var arrivalsLayout = function(months, maxRow, duration) {
         maxRow = maxRow || 30;
@@ -209,6 +269,29 @@
         }
     } 
 
+    var colourByResponse = function(question) {
+        var palette = ['#000', '#32c0cc', '#cc3366', '#99cc66']
+
+        var answers = d3.selectAll('.person').data().map(function(d){if (typeof d !== 'undefined') return d[question]})
+        var uniqueAnswers = [...new Set(answers)].sort()
+
+        d3.selectAll('.person *').attr('stroke', function(d) {
+            if (typeof d !== 'undefined') {
+                var i = uniqueAnswers.indexOf(d[question])
+                return palette[i];
+            }
+        })
+    }
+
+    var highlightMinors = function() {
+
+        d3.selectAll('.person *').attr('stroke', function(d) {
+            if (typeof d !== 'undefined') {
+                return d.age < 18 ? 'red': 'black';
+            }
+        })
+    }
+
     countries = ["Ethiopia", "Ethiopia (Oromo)", "Sudan", "Afghanistan", "Tajikistan", "Eritrea", "Pakistan", "Egypt", "Other", "Palestine", "Iran", "Iraq (Kurdish)"]
 
     showCountries()
@@ -252,5 +335,54 @@
     * Add a little noise for variability, e.g. head size, body/leg ratio, curve alignment, etc.
     * leave body line off to match RRDP logo?  Too abstract?
     * Chord or Sankey charts would be appropriate for origin and destination but might be too unfamiliar.
+
+    From METHODOLOGY
+    We surveyed as many individuals as possible,
+comparing our sample every evening against
+the estimated number of individuals identified
+by partner organisations operating on the
+ground. Moreover, we widened our reach by
+visiting one safe house, two
+day centres in the area, and
+one informal camp. Each of
+these research locations hosts
+individuals who circulate in
+the Calais area, and it is our
+understanding that the same
+population group moves
+constantly between these
+research locations. This led
+onto a path of so-called
+snowball sampling. As a
+result, selection bias could not
+always be avoided, and we
+were at times unable to steer
+the sample and stratification
+as much as we would ideally
+have liked.
+There is uncertainty about the
+exact population size, since it
+is in constant flux and there is
+no official registration system.
+This means it is not possible
+to determine exactly how
+large a sample we obtained,
+and how representative
+it is of the demographic
+groups in the area. However,
+having consulted local
+aid organisations, we
+estimate having surveyed
+approximately 53% of
+individuals in the area, not
+including the 1,500 Afghan
+and Kurdish residents of
+the Dunkirk camp (which
+burned down a few days after
+completion of our research
+study). We believe the country
+and age groups have been
+represented with relatively
+good accuracy. 
     -->
 </body>

@@ -1,0 +1,22 @@
+{
+  "name": "six-months-on",
+  "homepage": "https://github.com/shellsi/rrdp-six-months-later",
+  "authors": [
+    "Si Hammond <si@shellsi.com>"
+  ],
+  "description": "six months on interactive for RRDP",
+  "main": "vis.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "rangeslider.js": "^2.3.0",
+    "d3": "^4.8.0"
+  }
+}
