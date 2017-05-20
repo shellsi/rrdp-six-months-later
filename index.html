@@ -58,16 +58,17 @@
         </div>
         <div class="col-md-4">
             <h2>Question</h2>
-                <select class="form-control"  onchange="colourByResponse($(this).val())">
+                <select class="form-control"  onchange="show($(this).val())">
+                    <option value="">Responses below</option>
                     <option value="dublin applied">Dublin applied?</option>
                     <option value="who with in calais">Who with in calais?</option>
-                    <option value="country of origin">Country of orgin?</option>
+                    <option value="country of origin">Country of origin?</option>
                     <option value="feel safe in calais">Feel safe in calais?</option>
                     <option value="experienced tear gas or violence by french police">experienced tear gas or violence by french police?</option>
                     <option value="family in europe">family in europe?</option>
                     <option value="european family">european family?</option>
                 </select>
-            <div id="percentages">
+            <div id="percentages"></div>
                 <h2>Sort by...</h2>
             
             <div class="radio">
@@ -90,18 +91,18 @@
             </div>
         </div>
                 <div id="months-countdown"></div>
-                <input
+              <!--   <input
                 type="range"
                 min="0"                    // default 0
                 max="30"                  // default 100
                 step="1"                   // default 1
                 value="0"                 // default min + (max-min)/2
                 data-orientation="vertical" // default horizontal
-            >
+            > -->
         </div>
         
 </div>
-<div class="row">
+<!-- <div class="row">
 
     <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
             <h2>Sort by...</h2>
@@ -127,15 +128,15 @@
         </div>
         
     </div>
-</div>
+</div> -->
 
     <script>
     // Initialize a new plugin instance for all
     // e.g. $('input[type="range"]') elements.
-    $('input[type="range"]').rangeslider({onSlide: function(position, value) { 
-        console.log(position, value)
-        arrivalsLayout(value); 
-    }});
+    // $('input[type="range"]').rangeslider({onSlide: function(position, value) { 
+    //     console.log(position, value)
+    //     arrivalsLayout(value); 
+    // }});
 
 
     var ageHeight = d3.scaleLinear() // assumes linear growth to adulthood
@@ -185,7 +186,7 @@
 
         // dress?
         if(d.gender == 'Female') {
-            person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
+            person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'white')
         }
 
         
@@ -228,7 +229,7 @@
 
     var groupedLayout = function(question, maxRow, duration) {
         duration = duration || 2000;
-        maxRow = maxRow || 30;
+        maxRow = maxRow || 25;
 
         sortBy(question);
 
@@ -304,23 +305,52 @@
         d3.select('#months-countdown').text(month == 0 ? 'Now' : month + (month == 1 ? ' month': ' months') + ' ago')
     }
 
+    var show = function(attr) {
+        switch(attr) {
+
+            case 'age':
+                sortBy('age')
+                // colour red if a minor, black otherwise
+            break;
+
+            case 'dublin applied':
+                sortBy('dublin applied')
+                groupedLayout(attr);
+                colourByResponse(attr)
+            break;
+
+            case 'gender':
+            // set palette
+            sortBy('gender')
+            groupedLayout('gender');
+            break;
+
+            case 'who with in calais':
+                d3.selectAll('.person').sort(function(a,b){return a[attr] < b[attr] ? -1:1;})
+                groupedLayout(attr);
+                colourByResponse(attr)
+            break;
+
+            case 'experienced tear gas or violence by french police':
+                sortBy(attr);
+                groupedLayout(attr);
+                colourByResponse(attr);
+            break;
+
+            default:
+                sortBy(attr);
+                groupedLayout(attr);
+                colourByResponse(attr);
+            break;
+        }
+    }
+
     var sortBy = function(attr) {
         switch(attr) {
             case 'age':
                 d3.selectAll('.person').sort(function(a,b){return a.age - b.age;})
             break;
 
-            case 'gender': // non-binary?
-                d3.selectAll('.person').sort(function(a,b){return a.gender == 'Female' && b.gender == 'Male' ? -1:1;})
-            break;
-
-             case 'dublin applied':
-                d3.selectAll('.person').sort(function(a,b){return a['dublin applied'] < b['dublin applied'] ? -1:1;})
-            break;
-
-            case 'country of origin': // non-binary?
-                d3.selectAll('.person').sort(function(a,b){return a['country of origin'] < b['country of origin'] ? -1:1;})
-            break;
 
             case 'months in europe':
                 d3.selectAll('.person').sort(function(a,b){return b['months in europe'] - a['months in europe'];})
@@ -332,6 +362,20 @@
                     return b['months in france'] - a['months in france']
                     ;})
             break;
+
+            // case 'experienced tear gas or violence by french police':
+            //     d3.selectAll('.person').sort(function(a,b){
+            //         if(b[attr] == a[attr]) return b['index'] - a['index'];
+            //         else {
+            //             return b[attr] - a[attr];
+            //         })
+            // break;
+
+            default:
+                d3.selectAll('.person').sort(function(a,b){
+                    if(b[attr] == a[attr]) return b['index'] - a['index'];
+                    return b[attr] < a[attr] ? -1:1;
+                    })
 
         }
     } 
@@ -422,6 +466,7 @@
 
     IDEAS
     * Pop out to tell story
+    * model groupings
     * Background people to show this is just a sample and does not indicate size of whole population
     * Two-level sort: e.g. gender then age
     * Need an unabiguous but unobtrusive notation for minors.
