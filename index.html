@@ -27,7 +27,7 @@
         shape-rendering: geometricPrecision;
     }
 
-    .person > svg {
+    .person svg {
         display: 'none';
     }
 
@@ -44,7 +44,9 @@
 
     .big-number {
         font-size: xx-large;
+        font-weight: bold;
     }
+
 
     #percentages {
             display: inline-block;
@@ -53,19 +55,17 @@
     </style>
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <svg id="chart"></svg>
-        </div>
         <div class="col-md-4">
             <h2>Question</h2>
                 <select class="form-control"  onchange="show($(this).val())">
                     <option value="">Responses below</option>
-                    <option value="dublin applied">Dublin applied?</option>
-                    <option value="who with in calais">Who with in calais?</option>
-                    <option value="country of origin">Country of origin?</option>
+                    <option value="age">How old are you?</option>
+                    <option value="family in europe">Do you have family in Europe?</option>
+                    <option value="dublin applied">Did you apply for the Dublin process to join your family there?</option>
+                    <option value="who with in calais">With whom are you in Calais?</option>
+                    <option value="country of origin">What is your country of origin?</option>
                     <option value="feel safe in calais">Feel safe in calais?</option>
-                    <option value="experienced tear gas or violence by french police">experienced tear gas or violence by french police?</option>
-                    <option value="family in europe">family in europe?</option>
+                    <option value="experienced tear gas or violence by french police">Experienced tear gas or violence by french police?</option>
                     <option value="european family">european family?</option>
                 </select>
             <div id="percentages"></div>
@@ -90,6 +90,9 @@
                 </label>
             </div>
         </div>
+        <div class="col-md-8">
+            <div><svg id="chart"></svg></div>
+        </div>
                 <div id="months-countdown"></div>
               <!--   <input
                 type="range"
@@ -99,7 +102,11 @@
                 value="0"                 // default min + (max-min)/2
                 data-orientation="vertical" // default horizontal
             > -->
+
+        
         </div>
+
+        
         
 </div>
 <!-- <div class="row">
@@ -155,12 +162,15 @@
         person = d3.select(this).attr('class', 'person')
 
         person.each(function(d) {
-            var that = this;
-            d3.xml('flags/' + d['country of origin'] + ".svg").mimeType("image/svg+xml").get(function(error, xml) {
-                    if (error) throw error;
-                    d3.select(that).node().appendChild(xml.documentElement);
-                    d3.select(that).select('svg').attr('width', 18).attr('height', 18).attr('y', 10).style('opacity', 0.8).lower()
-                });    
+            if(d['country of origin'] != 'Other') { 
+                var that = this;
+                d3.xml('flags/' + d['country of origin'].toLowerCase() + ".svg").mimeType("image/svg+xml").get(function(error, xml) {
+                        if (error) throw error;
+                        d3.select(that).node().appendChild(xml.documentElement);
+                        d3.select(that).select('svg').attr('width', 18).attr('height', 18).attr('y', 10)
+                        .style('display', 'none').style('opacity', 0.8).lower()
+                    });
+            }
         })
 
         person.append('ellipse').attr('cx', 10).attr('cy', function(d) {
@@ -186,10 +196,9 @@
 
         // dress?
         if(d.gender == 'Female') {
-            person.append('path').attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'white')
+            person.append('path').classed('dress', true)
+                .attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
         }
-
-        
 
         return person;
     }
@@ -214,17 +223,6 @@
         d3.selectAll('.person').transition().duration(2000).ease(d3.easeCubicInOut).attr('transform', function(d, i) { 
             return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'
         })
-
-        // age strips
-        // d3.selectAll('.age-strip').remove(); // clear prior
-        // var height = 3*ageHeight(18)
-        // var y = 30 - height
-        // for(i = 0; i < d3.selectAll('.person').nodes().length / maxRow; i++) {
-        //     d3.select('#chart').append('rect').attr('class','age-strip')
-        //     // .attr('x',0).attr('height',height).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#fee')//.style('stroke', '#fcc').lower()
-        //     .attr('x',0).attr('height',1).attr('width',maxRow*20).attr('y',y + 35 * i).style('fill', '#f66').lower()
-
-        // }     
     }
 
     var groupedLayout = function(question, maxRow, duration) {
@@ -282,24 +280,24 @@
         setTimeout(function() { arrivalsLayout(month, 20, 1000); countdownMonth(month) }, 1000)
     }
 
-    var showCountries = function() {
-        countries.forEach(function(country) {
-            var label = d3.select('#chart').append('g').attr('class', 'country-label')
-                .attr('transform', 'translate(' + 600 + ',' + (15 + 30 * (1 + countries.indexOf(country))) + ')')
-                // .attr('x', 600)
-                // .attr('y', 15 + 30 * (1 + countries.indexOf(country)))
+    // var showCountries = function() {
+    //     countries.forEach(function(country) {
+    //         var label = d3.select('#chart').append('g').attr('class', 'country-label')
+    //             .attr('transform', 'translate(' + 600 + ',' + (15 + 30 * (1 + countries.indexOf(country))) + ')')
+    //             // .attr('x', 600)
+    //             // .attr('y', 15 + 30 * (1 + countries.indexOf(country)))
 
-            label.append('text').text(country)
-                .attr('text-anchor', 'end').attr('x', -5)
+    //         label.append('text').text(country)
+    //             .attr('text-anchor', 'end').attr('x', -5)
 
-            d3.xml('flags/' + country + ".svg").mimeType("image/svg+xml").get(function(error, xml) {
-                if (error) throw error;
-                label.node().appendChild(xml.documentElement);
-                label.select('svg').attr('width', 20).attr('height', 20).attr('y', -20)
-            });
-        })
+    //         d3.xml('flags/' + country + ".svg").mimeType("image/svg+xml").get(function(error, xml) {
+    //             if (error) throw error;
+    //             label.node().appendChild(xml.documentElement);
+    //             label.select('svg').attr('width', 20).attr('height', 20).attr('y', -20)
+    //         });
+    //     })
         // d3.selectAll('.country-label > svg').attr('width', 20).attr('height', 20)
-    }
+    //}
 
     var updateMonth = function(month) {
         d3.select('#months-countdown').text(month == 0 ? 'Now' : month + (month == 1 ? ' month': ' months') + ' ago')
@@ -310,7 +308,19 @@
 
             case 'age':
                 sortBy('age')
-                // colour red if a minor, black otherwise
+                betterLayout()
+                d3.selectAll('.person *').attr('stroke', function(d) {
+                    if (typeof d !== 'undefined') {
+                        return d.age < 18 ? 'red': 'black';
+                    }
+                })
+
+                // var percentage = percentages.append('div').classed('percentage', true)
+                // var minors = d3.selectAll('.person').data().filter(function(d){return d.age < 18;})
+                // var adults = d3.selectAll('.person').data().filter(function(d){return d.age >= 18;})
+                // percentage.append('span').attr('class', 'big-number')
+                //     .text((minors.length / (minors.length + adults.length) * 100).toFixed(1) + '% ')
+                    // colour red if a minor, black otherwise
             break;
 
             case 'dublin applied':
@@ -323,18 +333,6 @@
             // set palette
             sortBy('gender')
             groupedLayout('gender');
-            break;
-
-            case 'who with in calais':
-                d3.selectAll('.person').sort(function(a,b){return a[attr] < b[attr] ? -1:1;})
-                groupedLayout(attr);
-                colourByResponse(attr)
-            break;
-
-            case 'experienced tear gas or violence by french police':
-                sortBy(attr);
-                groupedLayout(attr);
-                colourByResponse(attr);
             break;
 
             default:
@@ -394,6 +392,10 @@
             }
         })
 
+        d3.selectAll('path.dress').style('fill', function(d) {
+            return d3.select(this).attr('stroke');
+        })
+
         // tot up answers
         var freq = {}
         answers.forEach(function(a){
@@ -414,8 +416,11 @@
                 .text((freq[f] / answers.length * 100).toFixed(1) + '% ')
                 
                 if(question == 'country of origin') {
-                    percentage.append('img').attr('src', 'flags/' + f + '.svg')
-                    .attr('width', 30).attr('height', 30).attr('y', 15)
+                    if(f != 'Other') { 
+                        percentage.append('img').attr('src', 'flags/' + f.toLowerCase() + '.svg')
+                            .attr('width', 30).attr('height', 30)
+                        .style('vertical-align', 'text-bottom').style('margin-right', '5px')
+                    }
                 } else {
                     percentage.style('color', function() {
                         return palette[uniqueAnswers.indexOf(f)];
