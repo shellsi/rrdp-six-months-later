@@ -21,13 +21,16 @@
         height: 100%;//400px;
     }
 
-    .stick {
+    .person {
         stroke: black;
-        fill: none;
         stroke-width: 1px solid;
         stroke-linecap: round;
         stroke-linejoin: round;
         shape-rendering: geometricPrecision;
+    }
+
+    .person .stick {
+        fill: none;
     }
 
     .person svg {
@@ -332,7 +335,7 @@ Show() sets first ordering if specified then selects layout and colourings based
         switch(orderings[0]) {
             case 'age':
                 flowLayout()
-                d3.selectAll('.stick').attr('stroke', function(d) {
+                d3.selectAll('.person *').attr('stroke', function(d) {
                     if (typeof d !== 'undefined') {
                         return d.age < 18 ? 'red': 'black';
                     }
@@ -453,7 +456,7 @@ Show() sets first ordering if specified then selects layout and colourings based
         var answers = d3.selectAll('.person').data().map(function(d){if (typeof d !== 'undefined') return d[question]})
         var uniqueAnswers = [...new Set(answers)].sort()
 
-        d3.selectAll('.stick').attr('stroke', function(d) {
+        d3.selectAll('.person *').attr('stroke', function(d) {
             if(question == 'country of origin') { return 'black'}
             if (typeof d !== 'undefined') {
                 var i = uniqueAnswers.indexOf(d[question])
@@ -503,7 +506,7 @@ Show() sets first ordering if specified then selects layout and colourings based
     }
 
     var highlightMinors = function() {
-        d3.selectAll('.stick').attr('stroke', function(d) {
+        d3.selectAll('.person *').attr('stroke', function(d) {
             if (typeof d !== 'undefined') {
                 return d.age < 18 ? 'red': 'black';
             }
