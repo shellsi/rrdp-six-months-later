@@ -11,6 +11,9 @@
 
     body {
         font-family: arial;
+        background-image: url(camp_bg_light.jpg);
+    background-repeat: repeat;
+    background-size: 400px;
     }
 
     #chart {
@@ -52,48 +55,75 @@
             display: inline-block;
             vertical-align: top;
     }
+
+    .question-dropdown {
+        background-color: black;
+        color: white;
+    }
     </style>
 <div class="container">
+    <div class="row"><div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-body">Interactive view of <a href="http://refugeerights.org.uk/wp-content/uploads/2017/04/RRDP_SixMonthsOn.pdf">Six Months On - a report by the Refugee Rights Data Project</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
-        <div class="col-md-4">
-            <h2>Question</h2>
-                <select class="form-control"  onchange="show($(this).val())">
-                    <option value="">Responses below</option>
+       
+        <div class="col-md-8 col-sm-8 col-xs-12">
+            <div>
+                <select class="form-control question-dropdown"  onchange="show($(this).val())">
+                    <option value="">Select a question...</option>
+                    <option value="gender">What is your gender?</option>
                     <option value="age">How old are you?</option>
                     <option value="family in europe">Do you have family in Europe?</option>
                     <option value="dublin applied">Did you apply for the Dublin process to join your family there?</option>
                     <option value="who with in calais">With whom are you in Calais?</option>
                     <option value="country of origin">What is your country of origin?</option>
-                    <option value="feel safe in calais">Feel safe in calais?</option>
-                    <option value="experienced tear gas or violence by french police">Experienced tear gas or violence by french police?</option>
-                    <option value="european family">european family?</option>
+                    <option value="feel safe in calais">Do you feel that you are safe in Calais?</option>
+                    <option value="experienced tear gas or violence by french police">Have you ever experienced tear gas or other violence by police in France?</option>
+                    <!-- <option value="european family">Do you have family in Europe?</option> -->
                 </select>
-            <div id="percentages"></div>
-                <h2>Sort by...</h2>
-            
-            <div class="radio">
-                <label>
-                    <input type="radio" name="sortby" onclick="sortBy('age');betterLayout()" value="age" checked>
-                    Age
-                </label>
+
+                <svg id="chart"></svg>
             </div>
-            <div class="radio">
+        </div>
+
+         <div class="col-md-4 col-sm-4 col-xs-12">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="percentages"></div>
+                    <h2>Sort by...</h2>
+                    
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="groupBy" onclick="orderings[1]='age';show()" value="age" checked>
+                            Age
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="groupBy" onclick="orderings[1]='gender';show()" value="gender" checked>
+                            Gender
+                        </label>
+                    </div>
+                </div>
+            </div>
+<!--             <div class="radio">
                 <label>
-                    <input type="radio" name="sortby" onclick="sortBy('months in france');betterLayout()" value="months in france" checked>
+                    <input type="radio" name="groupBy" onclick="groupBy('months in france');flowLayout()" value="months in france" checked>
                     Months in France
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="sortby" onclick="sortBy('months in europe');betterLayout()" value="months in europe" checked>
+                    <input type="radio" name="groupBy" onclick="groupBy('months in europe');flowLayout()" value="months in europe" checked>
                     Months in Europe
                 </label>
             </div>
-        </div>
-        <div class="col-md-8">
-            <div><svg id="chart"></svg></div>
-        </div>
-                <div id="months-countdown"></div>
+ -->        </div>
+                <!-- <div id="months-countdown"></div> -->
               <!--   <input
                 type="range"
                 min="0"                    // default 0
@@ -109,33 +139,6 @@
         
         
 </div>
-<!-- <div class="row">
-
-    <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-            <h2>Sort by...</h2>
-            
-            <div class="radio">
-                <label>
-                    <input type="radio" name="sortby" onclick="sortBy('age');betterLayout()" value="age" checked>
-                    Age
-                </label>
-            </div>
-            <div class="radio">
-                <label>
-                    <input type="radio" name="sortby" onclick="sortBy('months in france');betterLayout()" value="months in france" checked>
-                    Months in France
-                </label>
-            </div>
-            <div class="radio">
-                <label>
-                    <input type="radio" name="sortby" onclick="sortBy('months in europe');betterLayout()" value="months in europe" checked>
-                    Months in Europe
-                </label>
-            </div>
-        </div>
-        
-    </div>
-</div> -->
 
     <script>
     // Initialize a new plugin instance for all
@@ -204,10 +207,13 @@
     }
 
     var createPopulation = function(data) {
-        population = d3.select('#chart').selectAll('person')
+        population = d3.select('#chart')
+            .append('g').attr('transform', 'translate(0,5)') // shift down a bit
+            .selectAll('person')
                     .data(data)
                     .enter()
                     .append('g')
+                    .attr('transform', 'translate(800,800)')
                     
         population
             .append("svg:title")
@@ -218,23 +224,29 @@
         population.each(renderPerson);
     }
 
-    var betterLayout = function(maxRow) {
-        maxRow = maxRow || 20;
-        d3.selectAll('.person').transition().duration(2000).ease(d3.easeCubicInOut).attr('transform', function(d, i) { 
-            return 'translate(' + ((i%maxRow)*20) + ',' + (Math.floor(i / maxRow)*35) +')'
+    var flowLayout = function(maxRow, stagger) {
+        maxRow = maxRow || 25;
+        if (typeof stagger == 'undefined') stagger = 0;
+        d3.selectAll('.person')
+        .transition().duration(2000).delay(function(d,i){return stagger * i}).ease(d3.easeCubicInOut)
+        .attr('transform', function(d, i) { 
+            return 'translate(' + ((i%maxRow) * 20) + ',' + (Math.floor(i / maxRow) * 35) +')'
         })
     }
 
+    /*
+    Needs to pass an attribute which causes a new row when it changes.
+    Returns a transition for chaining, e.g. to recolouring.
+    */
     var groupedLayout = function(question, maxRow, duration) {
+        // question = orderings[0];
         duration = duration || 2000;
         maxRow = maxRow || 25;
-
-        sortBy(question);
 
         var x = y = 0;
         var last = null;
 
-        d3.selectAll('.person')
+        return d3.selectAll('.person')
             .transition().duration(duration).ease(d3.easeCubicInOut)
             .attr('transform', function(d) {
                 if(x > maxRow || (last !== null && last !== d[question])) {
@@ -242,7 +254,7 @@
                     y++;
                 }
                 last = d[question];
-                return 'translate(' + (x++*20) + ',' + (y*35) +')';
+                return 'translate(' + (x++ * 20) + ',' + (y * 35) +')';
             })
     }
 
@@ -254,7 +266,7 @@
         var pos = 0; // for next available place
         var cPos = [0,0,0,0,0,0,0, 0, 0, 0]
 
-        sortBy('months in france');  // months in europe?
+        groupBy('months in france');  // months in europe?
         updateMonth(months)
 
         d3.selectAll('.person')
@@ -303,12 +315,21 @@
         d3.select('#months-countdown').text(month == 0 ? 'Now' : month + (month == 1 ? ' month': ' months') + ' ago')
     }
 
+/*
+Show() sets first ordering if specified then selects layout and colourings based on orderings.
+*/
     var show = function(attr) {
-        switch(attr) {
 
+        if(typeof attr !== "undefined") {
+            orderings[0] = attr;
+            // attr = null;
+        }
+
+        order();
+
+        switch(attr) {
             case 'age':
-                sortBy('age')
-                betterLayout()
+                flowLayout()
                 d3.selectAll('.person *').attr('stroke', function(d) {
                     if (typeof d !== 'undefined') {
                         return d.age < 18 ? 'red': 'black';
@@ -323,60 +344,96 @@
                     // colour red if a minor, black otherwise
             break;
 
-            case 'dublin applied':
-                sortBy('dublin applied')
-                groupedLayout(attr);
-                colourByResponse(attr)
-            break;
-
-            case 'gender':
-            // set palette
-            sortBy('gender')
-            groupedLayout('gender');
-            break;
-
-            default:
-                sortBy(attr);
-                groupedLayout(attr);
-                colourByResponse(attr);
+           default:
+           // case null:
+            console.log('defaulting')
+                groupedLayout(orderings[0]);
+                // flowLayout()
+                colourByResponse(orderings[0]);
             break;
         }
     }
 
-    var sortBy = function(attr) {
+/* DEPRECATED */
+    var groupBy = function(attr) {
         switch(attr) {
-            case 'age':
-                d3.selectAll('.person').sort(function(a,b){return a.age - b.age;})
-            break;
+            // case 'age':
+            //     sortFn = function(a,b){return a.age - b.age;}
+            //     d3.selectAll('.person').sort(sortFn)
+            // break;
 
 
-            case 'months in europe':
-                d3.selectAll('.person').sort(function(a,b){return b['months in europe'] - a['months in europe'];})
-            break;
+            // case 'months in europe':
+            //     sortFn = function(a,b){return b['months in europe'] - a['months in europe'];}
+            //     d3.selectAll('.person').sort(sortFn)
+            // break;
 
-            case 'months in france':
-                d3.selectAll('.person').sort(function(a,b){
-                    if(b['months in france'] == a['months in france']) return b['index'] - a['index'];
-                    return b['months in france'] - a['months in france']
-                    ;})
-            break;
-
-            // case 'experienced tear gas or violence by french police':
+            // case 'months in france':
             //     d3.selectAll('.person').sort(function(a,b){
-            //         if(b[attr] == a[attr]) return b['index'] - a['index'];
-            //         else {
-            //             return b[attr] - a[attr];
-            //         })
+            //         if(b['months in france'] == a['months in france']) return b['index'] - a['index'];
+            //         return b['months in france'] - a['months in france']
+            //         ;})
             // break;
 
             default:
                 d3.selectAll('.person').sort(function(a,b){
                     if(b[attr] == a[attr]) return b['index'] - a['index'];
-                    return b[attr] < a[attr] ? -1:1;
-                    })
-
+                    else {
+                        return b[attr] < a[attr] ? -1:1;
+                    }
+                })
         }
-    } 
+    }
+
+    // orderings is a global array
+    var order = function() {
+        var nextComparator = function nextComparator(attrs, a, b) {
+                if(attrs.length == 0) return 0;
+                var attrs2 = attrs.slice()
+                var comparison = comparatorFn(attrs2.shift())(a, b)
+                if(comparison == 0) {
+                    return nextComparator(attrs2, a, b)
+                } else {
+                    return comparison;
+                }
+            }
+
+        d3.selectAll('.person').sort(function(a, b) { // sort all people using this comparator function
+            return nextComparator(orderings, a, b)
+        })
+
+        console.log(orderings)
+    }
+
+    var comparatorFn = function(attr) {
+        // returns a function which returns the correct -1:1 value for the give type
+        switch(attr) {
+            case 'age': // and other numeric ascending orderings
+                return function(a,b){return a.age - b.age;}
+            break;
+
+            case 'gender':
+            case 'feel safe in calais':
+            case 'country of origin':
+            case 'family in europe':
+            case 'who with in calais':
+            case 'european family':
+            case 'dublin applied':
+            case 'experienced tear gas or violence by french police':
+                return function(a, b) { // textual responses
+                    if(b[attr] == a[attr]) return 0;
+                    else {
+                        return b[attr] < a[attr] ? -1:1;
+                    }
+                }
+            break;
+
+            default: // redundant? initial ordering for numerical
+                return function(a, b) {
+                    return b['index'] - a['index'];
+                }
+        }
+    }
 
     var colourByResponse = function(question) {
         var palette = ['#000', '#32c0cc', '#cc3366', '#99cc66', 'purple', 'orange', 'teal']
@@ -411,10 +468,6 @@
         for(f in freq) {
             var percentage = d3.select('#percentages').append('div').classed('percentage', true)
             
-
-            percentage.append('span').attr('class', 'big-number')
-                .text((freq[f] / answers.length * 100).toFixed(1) + '% ')
-                
                 if(question == 'country of origin') {
                     if(f != 'Other') { 
                         percentage.append('img').attr('src', 'flags/' + f.toLowerCase() + '.svg')
@@ -427,12 +480,17 @@
                     })
                 }
 
+
+
+            percentage.append('span').attr('class', 'big-number')
+                .text((freq[f] / answers.length * 100).toFixed(1) + '% ')
+                
+
             percentage.append('span').html(function() { return f == '' ? '(no answer)' : f})
         }
     }
 
     var highlightMinors = function() {
-
         d3.selectAll('.person *').attr('stroke', function(d) {
             if (typeof d !== 'undefined') {
                 return d.age < 18 ? 'red': 'black';
@@ -446,12 +504,18 @@
 
     population = d3.csv('6m_vis_data.csv', function(data) {
         createPopulation(data)
-        betterLayout();
+        orderings = ['age', 'gender', 'id']
+        flowLayout(25, 10);
     })
 
 
     </script>
 <!--
+    TODO
+    * Handle multiple-country european family
+    * Give percentages for minors.
+    * Order groups by descending frequency
+
     NOTES
     * Individual figures emphasize these are individuals.  Small numbers make this possible.
     * Stick figures match RRDP aesthetic and convey simple vulnerability.
@@ -459,7 +523,6 @@
     * No age for a couple, scale to adult or average?
     * A few people don't give time in France or Europe.
     * Style consistently with http://refugeerights.org.uk/wp-content/uploads/2017/04/RRDP_SixMonthsOn.pdf
-    * Include big percentages along with stickman partitions to questions.
     ** I.e. white / cyan on black
     ** Call outs
     ** May be able to use images to background specific question theme responses.
@@ -473,7 +536,6 @@
     * Pop out to tell story
     * model groupings
     * Background people to show this is just a sample and does not indicate size of whole population
-    * Two-level sort: e.g. gender then age
     * Need an unabiguous but unobtrusive notation for minors.
     * How to represent police violence and healthcare questions?
     * How to respresent many-response answers?
@@ -486,52 +548,15 @@
     * Chord or Sankey charts would be appropriate for origin and destination but might be too unfamiliar.
 
     From METHODOLOGY
-    We surveyed as many individuals as possible,
-comparing our sample every evening against
-the estimated number of individuals identified
-by partner organisations operating on the
-ground. Moreover, we widened our reach by
-visiting one safe house, two
-day centres in the area, and
-one informal camp. Each of
-these research locations hosts
-individuals who circulate in
-the Calais area, and it is our
-understanding that the same
-population group moves
-constantly between these
-research locations. This led
-onto a path of so-called
-snowball sampling. As a
-result, selection bias could not
-always be avoided, and we
-were at times unable to steer
-the sample and stratification
-as much as we would ideally
-have liked.
-There is uncertainty about the
-exact population size, since it
-is in constant flux and there is
-no official registration system.
-This means it is not possible
-to determine exactly how
-large a sample we obtained,
-and how representative
-it is of the demographic
-groups in the area. However,
-having consulted local
-aid organisations, we
-estimate having surveyed
-approximately 53% of
-individuals in the area, not
-including the 1,500 Afghan
-and Kurdish residents of
-the Dunkirk camp (which
-burned down a few days after
-completion of our research
-study). We believe the country
-and age groups have been
-represented with relatively
-good accuracy. 
-    -->
+    We surveyed as many individuals as possible, comparing our sample every evening against the estimated number of individuals identified by partner organisations operating on the ground. Moreover, we widened our reach by visiting one safe house, two day centres in the area, and one informal camp. Each of these research locations hosts individuals who circulate in the Calais area, and it is our understanding that the same population group moves constantly between these research locations. This led onto a path of so-called snowball sampling. As a result, selection bias could not always be avoided, and we were at times unable to steer the sample and stratification as much as we would ideally have liked. There is uncertainty about the exact population size, since it is in constant flux and there is no official registration system. This means it is not possible to determine exactly how large a sample we obtained, and how representative it is of the demographic groups in the area. However, having consulted local aid organisations, we estimate having surveyed approximately 53% of individuals in the area, not including the 1,500 Afghan and Kurdish residents of the Dunkirk camp (which burned down a few days after completion of our research study). We believe the country and age groups have been represented with relatively good accuracy. -->
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-9842591-5', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
