@@ -213,7 +213,7 @@
                     .data(data)
                     .enter()
                     .append('g')
-                    .attr('transform', 'translate(800,800)')
+                    .attr('transform', 'translate(250,1000)')
                     
         population
             .append("svg:title")
@@ -249,7 +249,7 @@
         return d3.selectAll('.person')
             .transition().duration(duration).ease(d3.easeCubicInOut)
             .attr('transform', function(d) {
-                if(x > maxRow || (last !== null && last !== d[question])) {
+                if(x >= maxRow || (last !== null && last !== d[question])) {
                     x = 0;
                     y++;
                 }
