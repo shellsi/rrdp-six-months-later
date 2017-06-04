@@ -12,8 +12,8 @@
     body {
         font-family: arial;
         background-image: url(camp_bg_light.jpg);
-    background-repeat: repeat;
-    background-size: 400px;
+        background-repeat: repeat;
+        background-size: 400px;
     }
 
     #chart {
@@ -21,7 +21,7 @@
         height: 100%;//400px;
     }
 
-    .person {
+    .stick {
         stroke: black;
         fill: none;
         stroke-width: 1px solid;
@@ -180,27 +180,29 @@
             return 30 - 2.5 * ageHeight(d.age);// - 5;
         })
             .attr('ry', function(d) { return ageHeight(d.age) / 2})
-            .attr('rx', function(d) { return ageHeight(d.age) / 2});//rndHead)//.attr('stroke', 'black')
+            .attr('rx', function(d) { return ageHeight(d.age) / 2})//rndHead)//.attr('stroke', 'black')
+            .classed('stick', true)
 
         // body line    
         person.append('path').attr('d', function(d) {
             return "M10 " + (30 - ageHeight(d.age)) + " v-" + ageHeight(d.age)
-        })
+        }).classed('stick', true)
 
         // arm and shoulders
         person.append('path').attr('d', function(d) {
             return 'M5 ' + (30 - ageHeight(d.age)) + ' q 5 -' + (2 * ageHeight(d.age) - 2) + ' 10 0'
-        })
+        }).classed('stick', true)
 
         // lower half
         person.append('path').attr('d', function(d) {
             return 'M8 30 l 2 -' + ageHeight(d.age) +' l 2 ' + ageHeight(d.age)
-        })
+        }).classed('stick', true)
 
         // dress?
         if(d.gender == 'Female') {
             person.append('path').classed('dress', true)
                 .attr('d', 'M7 25 q 3 -18 6 0 L7 25').style('fill', 'black')
+                .classed('stick', true)
         }
 
         return person;
@@ -327,26 +329,36 @@ Show() sets first ordering if specified then selects layout and colourings based
 
         order();
 
-        switch(attr) {
+        switch(orderings[0]) {
             case 'age':
                 flowLayout()
-                d3.selectAll('.person *').attr('stroke', function(d) {
+                d3.selectAll('.stick').attr('stroke', function(d) {
                     if (typeof d !== 'undefined') {
                         return d.age < 18 ? 'red': 'black';
                     }
                 })
+                d3.selectAll('.percentage').remove()
 
-                // var percentage = percentages.append('div').classed('percentage', true)
-                // var minors = d3.selectAll('.person').data().filter(function(d){return d.age < 18;})
-                // var adults = d3.selectAll('.person').data().filter(function(d){return d.age >= 18;})
-                // percentage.append('span').attr('class', 'big-number')
-                //     .text((minors.length / (minors.length + adults.length) * 100).toFixed(1) + '% ')
+                var minors = d3.selectAll('.person').data().filter(function(d){return d.age < 18;})
+                var adults = d3.selectAll('.person').data().filter(function(d){return d.age >= 18;})
+
+                var percentage = d3.select('#percentages').append('div').classed('percentage', true)
+                    .style('color', 'red')
+                percentage.append('span').attr('class', 'big-number')
+                    .text((minors.length / (minors.length + adults.length) * 100).toFixed(1) + '% ')
+                percentage.append('span').text('Minor')
+
+                percentage = d3.select('#percentages').append('div').classed('percentage', true)
+                percentage.append('span').attr('class', 'big-number')
+                    .text((adults.length / (minors.length + adults.length) * 100).toFixed(1) + '% ')
+                percentage.append('span').text('Adult')
+
                     // colour red if a minor, black otherwise
             break;
 
            default:
-           // case null:
-            console.log('defaulting')
+               // case null:
+                console.log('defaulting')
                 groupedLayout(orderings[0]);
                 // flowLayout()
                 colourByResponse(orderings[0]);
@@ -441,7 +453,7 @@ Show() sets first ordering if specified then selects layout and colourings based
         var answers = d3.selectAll('.person').data().map(function(d){if (typeof d !== 'undefined') return d[question]})
         var uniqueAnswers = [...new Set(answers)].sort()
 
-        d3.selectAll('.person *').attr('stroke', function(d) {
+        d3.selectAll('.stick').attr('stroke', function(d) {
             if(question == 'country of origin') { return 'black'}
             if (typeof d !== 'undefined') {
                 var i = uniqueAnswers.indexOf(d[question])
@@ -491,7 +503,7 @@ Show() sets first ordering if specified then selects layout and colourings based
     }
 
     var highlightMinors = function() {
-        d3.selectAll('.person *').attr('stroke', function(d) {
+        d3.selectAll('.stick').attr('stroke', function(d) {
             if (typeof d !== 'undefined') {
                 return d.age < 18 ? 'red': 'black';
             }
