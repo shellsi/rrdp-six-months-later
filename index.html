@@ -76,9 +76,9 @@
         <div class="col-md-8 col-sm-8 col-xs-12">
             <div>
                 <select class="form-control question-dropdown"  onchange="show($(this).val())">
-                    <option value="">Select a question...</option>
+                    <!-- <option value="">Select a question...</option> -->
                     <option value="gender">What is your gender?</option>
-                    <option value="age">How old are you?</option>
+                    <option value="age" selected>How old are you?</option>
                     <option value="family in europe">Do you have family in Europe?</option>
                     <option value="dublin applied">Did you apply for the Dublin process to join your family there?</option>
                     <option value="who with in calais">With whom are you in Calais?</option>
@@ -101,7 +101,7 @@
                     
                     <div class="radio">
                         <label>
-                            <input type="radio" name="groupBy" onclick="orderings[1]='age';show()" value="age" checked>
+                            <input type="radio" name="groupBy" onclick="orderings[1]='age';show()" value="age">
                             Age
                         </label>
                     </div>
@@ -327,7 +327,6 @@ Show() sets first ordering if specified then selects layout and colourings based
 
         if(typeof attr !== "undefined") {
             orderings[0] = attr;
-            // attr = null;
         }
 
         order();
@@ -360,10 +359,7 @@ Show() sets first ordering if specified then selects layout and colourings based
             break;
 
            default:
-               // case null:
-                console.log('defaulting')
                 groupedLayout(orderings[0]);
-                // flowLayout()
                 colourByResponse(orderings[0]);
             break;
         }
@@ -372,23 +368,6 @@ Show() sets first ordering if specified then selects layout and colourings based
 /* DEPRECATED */
     var groupBy = function(attr) {
         switch(attr) {
-            // case 'age':
-            //     sortFn = function(a,b){return a.age - b.age;}
-            //     d3.selectAll('.person').sort(sortFn)
-            // break;
-
-
-            // case 'months in europe':
-            //     sortFn = function(a,b){return b['months in europe'] - a['months in europe'];}
-            //     d3.selectAll('.person').sort(sortFn)
-            // break;
-
-            // case 'months in france':
-            //     d3.selectAll('.person').sort(function(a,b){
-            //         if(b['months in france'] == a['months in france']) return b['index'] - a['index'];
-            //         return b['months in france'] - a['months in france']
-            //         ;})
-            // break;
 
             default:
                 d3.selectAll('.person').sort(function(a,b){
@@ -505,14 +484,6 @@ Show() sets first ordering if specified then selects layout and colourings based
         }
     }
 
-    var highlightMinors = function() {
-        d3.selectAll('.person *').attr('stroke', function(d) {
-            if (typeof d !== 'undefined') {
-                return d.age < 18 ? 'red': 'black';
-            }
-        })
-    }
-
     countries = ["Ethiopia", "Ethiopia (Oromo)", "Sudan", "Afghanistan", "Tajikistan", "Eritrea", "Pakistan", "Egypt", "Other", "Palestine", "Iran", "Iraq (Kurdish)"]
 
     // showCountries()
@@ -520,7 +491,7 @@ Show() sets first ordering if specified then selects layout and colourings based
     population = d3.csv('6m_vis_data.csv', function(data) {
         createPopulation(data)
         orderings = ['age', 'gender', 'id']
-        flowLayout(25, 10);
+        show()
     })
 
 
@@ -545,7 +516,6 @@ Show() sets first ordering if specified then selects layout and colourings based
     * The time is possible deceptive since is doesn't show the people who have left at the time of the survey.
     * Are some flags contentious?
     * Check age height - should hit line at 18.
-
 
     IDEAS
     * Pop out to tell story
